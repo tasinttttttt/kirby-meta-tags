@@ -46,16 +46,16 @@ class MetaTags
         $this->data = is_callable($default) ? $default($page, site(), kirby()) : $default;
         $templates = is_callable($templates) ? $templates($page, site(), kirby()) : $templates;
 
-        if (! is_array($this->data)) {
+        if (!is_array($this->data)) {
             throw new Exception('Option "pedroborges.meta-tags.default" must return an array');
         }
 
-        if (! is_array($templates)) {
+        if (!is_array($templates)) {
             throw new Exception('Option "pedroborges.meta-tags.templates" must return an array');
         }
 
-        if (isset($templates[$page->template()->name()])) {
-            $this->data = A::merge($this->data, $templates[$page->template()->name()]);
+        if (isset($templates[$page->intendedTemplate()->name()])) {
+            $this->data = A::merge($this->data, $templates[$page->intendedTemplate()->name()]);
         }
 
         $this->addTagsFromTemplate();
@@ -64,12 +64,12 @@ class MetaTags
     }
 
     /**
-    * Return an existing instance or create a new one.
-    *
-    * @param  Page  $page
-    *
-    * @return HeadTags
-    */
+     * Return an existing instance or create a new one.
+     *
+     * @param  Page  $page
+     *
+     * @return HeadTags
+     */
     public static function instance($page)
     {
         return static::$instances[$page->id()] ?? new static($page);
@@ -115,7 +115,7 @@ class MetaTags
             $this->addJsonld($tag, $value);
         } elseif (is_array($value)) {
             $this->addTagsArray($tag, $value, $group);
-        } elseif (! empty($value)) {
+        } elseif (!empty($value)) {
             $this->tags->$group($tag, $value);
         }
     }
@@ -143,11 +143,11 @@ class MetaTags
     {
         $schema = array_reverse($schema, true);
 
-        if (! isset($schema['@type'])) {
+        if (!isset($schema['@type'])) {
             $schema['@type'] = ucfirst($type);
         }
 
-        if (! isset($schema['@context'])) {
+        if (!isset($schema['@context'])) {
             $schema['@context'] = 'http://schema.org';
         }
 
